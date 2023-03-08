@@ -101,7 +101,9 @@ static dispatch_queue_t gFBLPromiseDefaultDispatchQueue;
 
   if (![error isKindOfClass:[NSError class]]) {
     // Give up on invalid error type in Release mode.
-    @throw error;  // NOLINT
+    @throw [NSException exceptionWithName:NSInvalidArgumentException
+                                   reason:[NSString stringWithFormat:@"Invalid error type: %@", error]
+                                 userInfo:nil];
   }
   @synchronized(self) {
     if (_state == FBLPromiseStatePending) {
